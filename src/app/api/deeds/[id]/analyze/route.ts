@@ -1,10 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
-import { exec } from 'child_process';
-import { promisify } from 'util';
-import path from 'path';
-
-const execAsync = promisify(exec);
 
 export async function POST(
   request: NextRequest,
@@ -23,7 +18,7 @@ export async function POST(
       );
     }
 
-    // Prepare the deed data for Python script
+    // Prepare the deed data for FastAPI
     const deedData = {
       document_type: deed.document_type,
       has_inquiry_history: deed.has_inquiry_history,
@@ -34,33 +29,35 @@ export async function POST(
       text: deed.text
     };
 
-    // Convert deed data to JSON string and escape it for command line
-    const deedJson = JSON.stringify(deedData).replace(/"/g, '\\"');
+    console.log('Sending deed data to FastAPI backend:', {
+      document_type: deedData.document_type,
+      has_inquiry_history: deedData.has_inquiry_history,
+      uses_tashil_law: deedData.uses_tashil_law,
+      inquiry_response_has_issue: deedData.inquiry_response_has_issue,
+      text_length: deedData.text.length
+    });
 
-    // Path to the Python script
-    const scriptPath = path.join(process.cwd(), 'backend', 'deed_analyzer.py');
+    // Call the FastAPI backend
+    const backendUrl = process.env.BACKEND_URL || 'http://localhost:8000';
+    const response = await fetch(`${backendUrl}/analyze`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(deedData),
+    });
 
-    // Create a temporary Python script that imports and runs the analysis
-    const tempScript = `
-import sys
-sys.path.append('${path.dirname(scriptPath)}')
-from deed_analyzer import check_deed_for_violations
-import json
-
-deed_data = json.loads('${deedJson}')
-result = check_deed_for_violations(deed_data)
-print(json.dumps({"result": result}))
-`;
-
-    // Execute the Python script
-    const { stdout, stderr } = await execAsync(`python3 -c "${tempScript}"`);
-
-    if (stderr) {
-      console.error('Python script stderr:', stderr);
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error('Backend analysis error:', errorText);
+      return NextResponse.json(
+        { error: 'Failed to analyze deed with backend service', details: errorText },
+        { status: 500 }
+      );
     }
 
-    // Parse the result
-    const analysisResult = JSON.parse(stdout.trim());
+    const analysisResult = await response.json();
+    console.log('Backend analysis result:', analysisResult);
 
     // Update the deed with analysis result
     const updatedDeed = await db.deed.update({
@@ -79,7 +76,7 @@ print(json.dumps({"result": result}))
   } catch (error) {
     console.error('Error in deed analysis API:', error);
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { error: 'Internal server error', details: error instanceof Error ? error.message : 'Unknown error' },
       { status: 500 }
     );
   }

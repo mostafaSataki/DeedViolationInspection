@@ -170,7 +170,7 @@ export function DeedList({ onAnalyzeDeed, onViewDeed }: DeedListProps) {
   };
 
   return (
-    <div className="space-y-6 text-right">
+    <div className="space-y-6 text-right" dir="rtl">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>

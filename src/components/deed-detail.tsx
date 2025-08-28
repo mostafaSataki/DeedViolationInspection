@@ -95,8 +95,8 @@ export function DeedDetail({
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-      <div className="bg-white rounded-lg max-w-6xl w-full max-h-[90vh] overflow-y-auto">
-        <div className="p-6">
+      <div className="bg-white rounded-lg max-w-6xl w-full max-h-[90vh] overflow-y-auto" dir="rtl">
+        <div className="p-6 text-right">
           {/* Header */}
           <div className="flex items-center justify-between mb-6">
             <div>
@@ -112,10 +112,10 @@ export function DeedDetail({
             {/* Basic Information */}
             <div className="lg:col-span-1 space-y-4">
               <Card>
-                <CardHeader>
+                <CardHeader className="text-right">
                   <CardTitle className="text-lg">اطلاعات پایه</CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-3">
+                <CardContent className="space-y-3 text-right">
                   <div>
                     <p className="text-sm text-gray-500">نوع سند</p>
                     <Badge variant="outline" className="mt-1">
@@ -146,10 +146,10 @@ export function DeedDetail({
               </Card>
 
               <Card>
-                <CardHeader>
+                <CardHeader className="text-right">
                   <CardTitle className="text-lg">وضعیت‌ها</CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-3">
+                <CardContent className="space-y-3 text-right">
                   <div className="flex items-center justify-between">
                     <span className="text-sm">سابقه استعلام</span>
                     <Badge variant={deed.has_inquiry_history ? "default" : "secondary"}>
@@ -209,7 +209,7 @@ export function DeedDetail({
               {/* Analysis Result */}
               {deed.analysis_result && (
                 <Card>
-                  <CardHeader>
+                  <CardHeader className="text-right">
                     <CardTitle className="text-lg flex items-center gap-2">
                       {getAnalysisIcon(deed.analysis_result)}
                       نتیجه تحلیل
@@ -221,16 +221,16 @@ export function DeedDetail({
                     )}
                   </CardHeader>
                   <CardContent>
-                    <div className="space-y-4">
+                    <div className="space-y-4 text-right">
                       <Badge variant={getAnalysisVariant(deed.analysis_result)} className="text-sm">
                         {deed.analysis_result}
                       </Badge>
                       
                       <div className="bg-gray-50 p-4 rounded-lg">
-                        <h4 className="font-semibold mb-2 text-sm text-gray-700">
+                        <h4 className="font-semibold mb-2 text-sm text-gray-700 text-right">
                           توضیح نتیجه:
                         </h4>
-                        <p className="text-sm text-gray-600 leading-relaxed">
+                        <p className="text-sm text-gray-600 leading-relaxed whitespace-pre-wrap text-right">
                           {deed.analysis_result.includes('پایان (تخلفی شناسایی نشد)') && (
                             'سند مورد بررسی هیچ‌گونه تخلفی ندارد و符合 تمام شرایط قانونی می‌باشد.'
                           )}
@@ -258,7 +258,7 @@ export function DeedDetail({
 
               {/* Deed Text */}
               <Card>
-                <CardHeader>
+                <CardHeader className="text-right">
                   <CardTitle className="text-lg">متن سند</CardTitle>
                   <CardDescription>
                     متن کامل سند ملکی
@@ -267,7 +267,7 @@ export function DeedDetail({
                 <CardContent>
                   <div className="bg-gray-50 p-6 rounded-lg border">
                     <div className="max-h-96 overflow-y-auto">
-                      <p className="text-base text-gray-700 leading-relaxed whitespace-pre-wrap font-medium">
+                      <p className="text-base text-gray-700 leading-relaxed whitespace-pre-wrap font-medium text-right">
                         {showFullText ? deed.text : truncateText(deed.text, 1000)}
                       </p>
                     </div>
@@ -283,16 +283,16 @@ export function DeedDetail({
                       </Button>
                     )}
                   </div>
-                  <div className="text-xs text-gray-400 mt-2">
+                  <div className="text-xs text-gray-400 mt-2 text-right">
                     تعداد کاراکترها: {deed.text.length}
                   </div>
                 </CardContent>
               </Card>
 
               {!deed.analysis_result && (
-                <Alert>
-                  <AlertCircle className="h-4 w-4" />
-                  <AlertDescription>
+                <Alert className="text-right">
+                  <AlertCircle className="h-4 w-4 ml-2" />
+                  <AlertDescription className="text-right">
                     این سند هنوز تحلیل نشده است. برای تحلیل سند و شناسایی تخلفات احتمالی، روی دکمه "تحلیل سند" کلیک کنید.
                   </AlertDescription>
                 </Alert>

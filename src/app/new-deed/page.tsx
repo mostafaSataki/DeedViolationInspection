@@ -10,6 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Switch } from '@/components/ui/switch';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
+import { JalaliDatePicker } from '@/components/ui/jalali-calendar';
 import { ArrowRight, Save, Loader2, AlertCircle, Maximize2, Minimize2 } from 'lucide-react';
 
 interface DeedFormData {
@@ -76,8 +77,8 @@ export default function NewDeedPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
-      <div className="max-w-6xl mx-auto space-y-8">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4" dir="rtl">
+      <div className="max-w-6xl mx-auto space-y-8 text-right">
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
@@ -96,14 +97,14 @@ export default function NewDeedPage() {
 
         {/* Form */}
         <Card>
-          <CardHeader>
+          <CardHeader className="text-right">
             <CardTitle>اطلاعات سند</CardTitle>
             <CardDescription>
               لطفاً اطلاعات مربوط به سند ملکی را وارد کنید
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-6 text-right">
               {/* Title */}
               <div className="space-y-2">
                 <Label htmlFor="title">عنوان سند</Label>
@@ -139,20 +140,18 @@ export default function NewDeedPage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="inquiry_date">تاریخ استعلام</Label>
-                  <Input
-                    id="inquiry_date"
-                    type="date"
+                  <JalaliDatePicker
                     value={formData.inquiry_date}
-                    onChange={(e) => handleInputChange('inquiry_date', e.target.value)}
+                    onChange={(value) => handleInputChange('inquiry_date', value)}
+                    placeholder="تاریخ استعلام را انتخاب کنید"
                   />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="deed_date">تاریخ تنظیم سند</Label>
-                  <Input
-                    id="deed_date"
-                    type="date"
+                  <JalaliDatePicker
                     value={formData.deed_date}
-                    onChange={(e) => handleInputChange('deed_date', e.target.value)}
+                    onChange={(value) => handleInputChange('deed_date', value)}
+                    placeholder="تاریخ تنظیم سند را انتخاب کنید"
                   />
                 </div>
               </div>
@@ -161,29 +160,35 @@ export default function NewDeedPage() {
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
                   <Label htmlFor="has_inquiry_history">سابقه استعلام دارد</Label>
-                  <Switch
-                    id="has_inquiry_history"
-                    checked={formData.has_inquiry_history}
-                    onCheckedChange={(checked) => handleInputChange('has_inquiry_history', checked)}
-                  />
+                  <div dir="ltr">
+                    <Switch
+                      id="has_inquiry_history"
+                      checked={formData.has_inquiry_history}
+                      onCheckedChange={(checked) => handleInputChange('has_inquiry_history', checked)}
+                    />
+                  </div>
                 </div>
                 
                 <div className="flex items-center justify-between">
                   <Label htmlFor="uses_tashil_law">استفاده از قانون تسهیل</Label>
-                  <Switch
-                    id="uses_tashil_law"
-                    checked={formData.uses_tashil_law}
-                    onCheckedChange={(checked) => handleInputChange('uses_tashil_law', checked)}
-                  />
+                  <div dir="ltr">
+                    <Switch
+                      id="uses_tashil_law"
+                      checked={formData.uses_tashil_law}
+                      onCheckedChange={(checked) => handleInputChange('uses_tashil_law', checked)}
+                    />
+                  </div>
                 </div>
                 
                 <div className="flex items-center justify-between">
                   <Label htmlFor="inquiry_response_has_issue">ایراد در پاسخ استعلام</Label>
-                  <Switch
-                    id="inquiry_response_has_issue"
-                    checked={formData.inquiry_response_has_issue}
-                    onCheckedChange={(checked) => handleInputChange('inquiry_response_has_issue', checked)}
-                  />
+                  <div dir="ltr">
+                    <Switch
+                      id="inquiry_response_has_issue"
+                      checked={formData.inquiry_response_has_issue}
+                      onCheckedChange={(checked) => handleInputChange('inquiry_response_has_issue', checked)}
+                    />
+                  </div>
                 </div>
               </div>
 
@@ -220,7 +225,7 @@ export default function NewDeedPage() {
                     value={formData.text}
                     onChange={(e) => handleInputChange('text', e.target.value)}
                     rows={isExpanded ? 40 : 30}
-                    className={`resize-none text-lg leading-relaxed bg-transparent border-none p-0 focus:ring-0 ${
+                    className={`resize-none text-lg leading-relaxed bg-transparent border-none p-0 focus:ring-0 text-right ${
                       isExpanded ? 'h-full' : ''
                     }`}
                     required
@@ -242,22 +247,22 @@ export default function NewDeedPage() {
                     </div>
                   )}
                 </div>
-                <div className="flex items-center gap-2 text-sm text-gray-500">
+                <div className="flex items-center gap-2 text-sm text-gray-500 text-right">
                   <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                  <p>
+                  <p className="text-right">
                     لطفاً متن کامل سند را با دقت وارد کنید. این متن برای تحلیل هوش مصنوعی استفاده خواهد شد.
                   </p>
                 </div>
-                <div className="text-xs text-gray-400 mt-1">
+                <div className="text-xs text-gray-400 mt-1 text-right">
                   تعداد کاراکترها: {formData.text.length}
                 </div>
               </div>
 
               {/* Error */}
               {error && (
-                <Alert variant="destructive">
-                  <AlertCircle className="h-4 w-4" />
-                  <AlertDescription>{error}</AlertDescription>
+                <Alert variant="destructive" className="text-right">
+                  <AlertCircle className="h-4 w-4 ml-2" />
+                  <AlertDescription className="text-right">{error}</AlertDescription>
                 </Alert>
               )}
 

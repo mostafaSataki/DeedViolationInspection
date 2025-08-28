@@ -8,6 +8,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { JalaliDatePicker } from '@/components/ui/jalali-calendar';
 import { Loader2, Save, X } from 'lucide-react';
 
 interface DeedFormData {
@@ -55,8 +56,8 @@ export function DeedForm({ deed, onSave, onCancel, loading = false }: DeedFormPr
   };
 
   return (
-    <Card className="w-full max-w-2xl mx-auto">
-      <CardHeader>
+    <Card className="w-full max-w-2xl mx-auto" dir="rtl">
+      <CardHeader className="text-right">
         <CardTitle>
           {deed?.id ? 'ویرایش سند' : 'سند جدید'}
         </CardTitle>
@@ -68,7 +69,7 @@ export function DeedForm({ deed, onSave, onCancel, loading = false }: DeedFormPr
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-6 text-right">
           {/* Title */}
           <div className="space-y-2">
             <Label htmlFor="title">عنوان سند</Label>
@@ -104,20 +105,18 @@ export function DeedForm({ deed, onSave, onCancel, loading = false }: DeedFormPr
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="inquiry_date">تاریخ استعلام</Label>
-              <Input
-                id="inquiry_date"
-                type="date"
+              <JalaliDatePicker
                 value={formData.inquiry_date}
-                onChange={(e) => handleInputChange('inquiry_date', e.target.value)}
+                onChange={(value) => handleInputChange('inquiry_date', value)}
+                placeholder="تاریخ استعلام را انتخاب کنید"
               />
             </div>
             <div className="space-y-2">
               <Label htmlFor="deed_date">تاریخ تنظیم سند</Label>
-              <Input
-                id="deed_date"
-                type="date"
+              <JalaliDatePicker
                 value={formData.deed_date}
-                onChange={(e) => handleInputChange('deed_date', e.target.value)}
+                onChange={(value) => handleInputChange('deed_date', value)}
+                placeholder="تاریخ تنظیم سند را انتخاب کنید"
               />
             </div>
           </div>
@@ -126,29 +125,35 @@ export function DeedForm({ deed, onSave, onCancel, loading = false }: DeedFormPr
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <Label htmlFor="has_inquiry_history">سابقه استعلام دارد</Label>
-              <Switch
-                id="has_inquiry_history"
-                checked={formData.has_inquiry_history}
-                onCheckedChange={(checked) => handleInputChange('has_inquiry_history', checked)}
-              />
+              <div dir="ltr">
+                <Switch
+                  id="has_inquiry_history"
+                  checked={formData.has_inquiry_history}
+                  onCheckedChange={(checked) => handleInputChange('has_inquiry_history', checked)}
+                />
+              </div>
             </div>
             
             <div className="flex items-center justify-between">
               <Label htmlFor="uses_tashil_law">استفاده از قانون تسهیل</Label>
-              <Switch
-                id="uses_tashil_law"
-                checked={formData.uses_tashil_law}
-                onCheckedChange={(checked) => handleInputChange('uses_tashil_law', checked)}
-              />
+              <div dir="ltr">
+                <Switch
+                  id="uses_tashil_law"
+                  checked={formData.uses_tashil_law}
+                  onCheckedChange={(checked) => handleInputChange('uses_tashil_law', checked)}
+                />
+              </div>
             </div>
             
             <div className="flex items-center justify-between">
               <Label htmlFor="inquiry_response_has_issue">ایراد در پاسخ استعلام</Label>
-              <Switch
-                id="inquiry_response_has_issue"
-                checked={formData.inquiry_response_has_issue}
-                onCheckedChange={(checked) => handleInputChange('inquiry_response_has_issue', checked)}
-              />
+              <div dir="ltr">
+                <Switch
+                  id="inquiry_response_has_issue"
+                  checked={formData.inquiry_response_has_issue}
+                  onCheckedChange={(checked) => handleInputChange('inquiry_response_has_issue', checked)}
+                />
+              </div>
             </div>
           </div>
 
@@ -194,7 +199,7 @@ export function DeedForm({ deed, onSave, onCancel, loading = false }: DeedFormPr
             
             <Button 
               type="button" 
-              variant="outline" 
+              variant="outline"
               onClick={onCancel}
               disabled={loading}
             >

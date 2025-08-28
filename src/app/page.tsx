@@ -127,7 +127,7 @@ export default function Home() {
 
         {/* Stats Cards */}
         <div className="grid md:grid-cols-3 gap-6 mb-8">
-          <Card className="text-right">
+          <Card className="text-right" dir="rtl">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">کل اسناد</CardTitle>
               <Database className="h-4 w-4 text-muted-foreground" />
@@ -146,7 +146,7 @@ export default function Home() {
             </CardContent>
           </Card>
           
-          <Card className="text-right">
+          <Card className="text-right" dir="rtl">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">تحلیل شده</CardTitle>
               <BarChart3 className="h-4 w-4 text-muted-foreground" />
@@ -165,7 +165,7 @@ export default function Home() {
             </CardContent>
           </Card>
           
-          <Card className="text-right">
+          <Card className="text-right" dir="rtl">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">تخلفات</CardTitle>
               <FileText className="h-4 w-4 text-muted-foreground" />
@@ -186,7 +186,7 @@ export default function Home() {
         </div>
 
         {/* Main Content */}
-        <Tabs defaultValue="deeds" className="w-full">
+        <Tabs defaultValue="deeds" className="w-full" dir="rtl">
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="deeds" className="text-right">مدیریت اسناد</TabsTrigger>
             <TabsTrigger value="analysis" className="text-right">تحلیل سریع</TabsTrigger>
@@ -200,8 +200,8 @@ export default function Home() {
           </TabsContent>
           
           <TabsContent value="analysis" className="mt-6">
-            <Card className="text-right">
-              <CardHeader>
+            <Card className="text-right" dir="rtl">
+              <CardHeader className="text-right">
                 <CardTitle>تحلیل سریع سند</CardTitle>
                 <CardDescription>
                   برای تحلیل یک سند بدون ذخیره در پایگاه داده، از این بخش استفاده کنید

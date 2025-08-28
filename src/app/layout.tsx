@@ -1,16 +1,12 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const interSans = Inter({
+  variable: "--font-inter-sans",
   subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700", "800"],
 });
 
 export const metadata: Metadata = {
@@ -30,6 +26,9 @@ export const metadata: Metadata = {
     title: "سیستم تحلیل اسناد ملکی",
     description: "تحلیل اسناد ملکی با هوش مصنوعی",
   },
+  other: {
+    'iran-sans-font': 'true',
+  },
 };
 
 export default function RootLayout({
@@ -40,7 +39,8 @@ export default function RootLayout({
   return (
     <html lang="fa" dir="rtl" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground`}
+        className={`${interSans.variable} font-sans antialiased bg-background text-foreground`}
+        style={{ fontFamily: 'Iran Sans, Inter, sans-serif' }}
       >
         {children}
         <Toaster />
